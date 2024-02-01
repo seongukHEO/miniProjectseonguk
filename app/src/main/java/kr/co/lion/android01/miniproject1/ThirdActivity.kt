@@ -15,6 +15,9 @@ class ThirdActivity : AppCompatActivity() {
     //FourthActivity를 위한 런쳐
     lateinit var activityFourthlauncher:ActivityResultLauncher<Intent>
 
+    //값을 담아둘 변수
+    var realPlease = mutableListOf<MemoClass>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityThirdBinding = ActivityThirdBinding.inflate(layoutInflater)
@@ -54,6 +57,8 @@ class ThirdActivity : AppCompatActivity() {
                         }
                         R.id.delect_menu -> {
                             var newIntent = Intent()
+                            newIntent.putExtra("obj1", MemoClass::class.java)
+                            setResult(RESULT_OK, newIntent)
                             finish()
                         }
                     }
@@ -72,10 +77,15 @@ class ThirdActivity : AppCompatActivity() {
             }else{
                 intent.getParcelableExtra("obj1")
             }
-            noTitleTextfield.setText("${str1?.title}")
-            noTimeTextField.setText("${str1?.currentTime}")
-            noContentTextField.setText("${str1?.contect}")
+            var t1 = noTitleTextfield.setText("${str1?.title}").toString()
+            var t2 = noTimeTextField.setText("${str1?.currentTime}").toString()
+            var t3 = noContentTextField.setText("${str1?.contect}").toString()
+
+            realPlease.add(str1!!)
+
+
         }
+
 
     }
 }

@@ -22,8 +22,14 @@ class MainActivity : AppCompatActivity() {
     //FourthActivity를 받기 위한 런쳐
     lateinit var FourthActivitylauncher:ActivityResultLauncher<Intent>
 
+    //TirthActivity를 받기 위한 객체
+    lateinit var ThirtActivitylauncher:ActivityResultLauncher<Intent>
+
     //정보를 담을 객체
     var newList = mutableListOf<MemoClass>()
+
+    //ThirdActivity에서 받아온 값을 담을 객체
+    var pleaseList = mutableListOf<MemoClass>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +67,23 @@ class MainActivity : AppCompatActivity() {
         FourthActivitylauncher = registerForActivityResult(contract2){
 
         }
+
+        var contract4 = ActivityResultContracts.StartActivityForResult()
+        ThirtActivitylauncher = registerForActivityResult(contract4){
+            if (it.resultCode == RESULT_OK){
+                if (it.data != null){
+                    var please = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                        it?.data!!.getParcelableExtra("obj1", MemoClass::class.java)
+                    }else{
+                        it?.data!!.getParcelableExtra<MemoClass>("obj1")
+                    }
+                    newList.remove(please)
+                    activityMainBinding.recyclerview.adapter?.notifyDataSetChanged()
+
+                }
+            }
+        }
+
 
     }
 
@@ -122,7 +145,10 @@ class MainActivity : AppCompatActivity() {
                 this.recyclerviewBinding.root.setOnClickListener {
                     var newIntent = Intent(this@MainActivity, ThirdActivity::class.java)
                     newIntent.putExtra("obj1", newList[adapterPosition])
-                    startActivity(newIntent)
+                    ThirtActivitylauncher.apply {
+                        newList.removeAt(adapterPosition)
+                        launch(newIntent)
+                    }
                 }
             }
         }
