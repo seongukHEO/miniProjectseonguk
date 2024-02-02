@@ -1,13 +1,23 @@
 package kr.co.lion.android01.miniproject1
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import kr.co.lion.android01.miniproject1.databinding.ActivityFourthBinding
 
 class FourthActivity : AppCompatActivity() {
 
     lateinit var activityFourthBinding: ActivityFourthBinding
+
+    //받을 런쳐
+    lateinit var activityMainlauncher:ActivityResultLauncher<Intent>
+
+    //ThirtActivity에서 온 객체를 받을 변수
+    var seonguk = mutableListOf<MemoClass>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,10 +31,36 @@ class FourthActivity : AppCompatActivity() {
     }
 
     fun initData(){
+        var contract20 = ActivityResultContracts.StartActivityForResult()
+        activityMainlauncher = registerForActivityResult(contract20){
+
+        }
 
     }
     fun setToolBar(){
         activityFourthBinding.apply {
+            var info2 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                intent.getParcelableExtra("obj", MemoClass::class.java)
+            }else{
+                intent.getParcelableExtra<MemoClass>("obj")
+            }
+            activityFourthBinding.apply {
+                changeTitleTextField.apply {
+                    setText("${info2?.title}").toString()
+                    setOnClickListener {
+                        //TextField를 클릭할 경우 입력된 값이 사라진다
+                        setText("")
+                    }
+                }
+                changeContentTextField.apply {
+                    setText("${info2?.contect}").toString()
+                    setOnClickListener {
+                        setText("")
+                    }
+                   // Log.e("test1234", "${title}")
+                }
+            }
+
             fourthToolbar.apply {
                 //타이틀 설정
                 title = "메모 수정"
@@ -40,6 +76,8 @@ class FourthActivity : AppCompatActivity() {
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.changememo_menu -> {
+
+
                             var newIntent = Intent(this@FourthActivity, MainActivity::class.java)
                             startActivity(newIntent)
                         }
@@ -52,6 +90,10 @@ class FourthActivity : AppCompatActivity() {
 
     }
     fun initView(){
+        activityFourthBinding.apply {
+
+
+        }
 
     }
 }

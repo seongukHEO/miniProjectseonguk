@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         ThirtActivitylauncher = registerForActivityResult(contract4){
             if (it.resultCode == RESULT_OK){
                 if (it.data != null){
+                    //버전별 관리
                     var please = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
                         it?.data!!.getParcelableExtra("obj1", MemoClass::class.java)
                     }else{

@@ -49,12 +49,30 @@ class ThirdActivity : AppCompatActivity() {
                 }
                 //메뉴 설정
                 inflateMenu(R.menu.thirth_menu)
+
+                activityThirdBinding.apply {
+                    var str1 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                        intent.getParcelableExtra("obj1", MemoClass::class.java)
+                    }else{
+                        intent.getParcelableExtra("obj1")
+                    }
+                    var title = noTitleTextfield.setText("${str1?.title}").toString()
+                    var currentTime = noTimeTextField.setText("${str1?.currentTime}").toString()
+                    var contect = noContentTextField.setText("${str1?.contect}").toString()
+
+                    var meno = MemoClass(title, contect, currentTime )
+
                 setOnMenuItemClickListener {
-                    when(it.itemId){
+                    when (it.itemId) {
                         R.id.modify_menu -> {
+
                             var intent = Intent(this@ThirdActivity, FourthActivity::class.java)
-                            activityFourthlauncher.launch(intent)
+                            intent.putExtra("obj", meno)
+
+                            startActivity(intent)
+
                         }
+
                         R.id.delect_menu -> {
                             var newIntent = Intent()
                             newIntent.putExtra("obj1", MemoClass::class.java)
@@ -67,21 +85,13 @@ class ThirdActivity : AppCompatActivity() {
                     true
                 }
             }
+            }
         }
 
     }
     fun initView(){
         activityThirdBinding.apply {
-            var str1 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-                intent.getParcelableExtra("obj1", MemoClass::class.java)
-            }else{
-                intent.getParcelableExtra("obj1")
-            }
-            var t1 = noTitleTextfield.setText("${str1?.title}").toString()
-            var t2 = noTimeTextField.setText("${str1?.currentTime}").toString()
-            var t3 = noContentTextField.setText("${str1?.contect}").toString()
 
-            realPlease.add(str1!!)
 
 
         }
