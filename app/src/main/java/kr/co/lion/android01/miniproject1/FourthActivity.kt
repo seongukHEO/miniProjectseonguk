@@ -39,27 +39,24 @@ class FourthActivity : AppCompatActivity() {
     }
     fun setToolBar(){
         activityFourthBinding.apply {
-            var info2 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-                intent.getParcelableExtra("obj", MemoClass::class.java)
-            }else{
-                intent.getParcelableExtra<MemoClass>("obj")
-            }
-            activityFourthBinding.apply {
-                changeTitleTextField.apply {
-                    setText("${info2?.title}").toString()
+
+               changeTitleTextField.apply {
+                    val gogo1 = intent.getStringExtra("title").toString()
+                    setText(gogo1)
                     setOnClickListener {
                         //TextField를 클릭할 경우 입력된 값이 사라진다
                         setText("")
                     }
                 }
                 changeContentTextField.apply {
-                    setText("${info2?.contect}").toString()
+                    var gogo2 = intent.getStringExtra("contect").toString()
+                    setText(gogo2)
                     setOnClickListener {
                         setText("")
                     }
                    // Log.e("test1234", "${title}")
                 }
-            }
+
 
             fourthToolbar.apply {
                 //타이틀 설정
@@ -76,9 +73,16 @@ class FourthActivity : AppCompatActivity() {
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.changememo_menu -> {
+                            var title = changeTitleTextField.text.toString()
+                            var content = changeContentTextField.text.toString()
 
+
+                            var meme = MemoClass2(title, content)
 
                             var newIntent = Intent(this@FourthActivity, MainActivity::class.java)
+                            newIntent.putExtra("newplease", meme)
+
+                            setResult(RESULT_OK, newIntent)
                             startActivity(newIntent)
                         }
                     }

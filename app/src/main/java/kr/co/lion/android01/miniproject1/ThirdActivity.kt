@@ -15,8 +15,7 @@ class ThirdActivity : AppCompatActivity() {
     //FourthActivity를 위한 런쳐
     lateinit var activityFourthlauncher:ActivityResultLauncher<Intent>
 
-    //값을 담아둘 변수
-    var realPlease = mutableListOf<MemoClass>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +30,11 @@ class ThirdActivity : AppCompatActivity() {
     fun initData(){
         var contract3 = ActivityResultContracts.StartActivityForResult()
         activityFourthlauncher = registerForActivityResult(contract3){
+            if (it.resultCode == RESULT_OK){
+                if (it.data != null){
+
+                }
+            }
 
         }
 
@@ -51,25 +55,19 @@ class ThirdActivity : AppCompatActivity() {
                 inflateMenu(R.menu.thirth_menu)
 
                 activityThirdBinding.apply {
-                    var str1 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-                        intent.getParcelableExtra("obj1", MemoClass::class.java)
-                    }else{
-                        intent.getParcelableExtra("obj1")
-                    }
-                    var title = noTitleTextfield.setText("${str1?.title}").toString()
-                    var currentTime = noTimeTextField.setText("${str1?.currentTime}").toString()
-                    var contect = noContentTextField.setText("${str1?.contect}").toString()
+                   setOnMenuItemClickListener {
+                    var title = noTitleTextfield.text.toString()
+                    var contect = noContentTextField.text.toString()
 
-                    var meno = MemoClass(title, contect, currentTime )
-
-                setOnMenuItemClickListener {
-                    when (it.itemId) {
+                        when (it.itemId) {
                         R.id.modify_menu -> {
 
-                            var intent = Intent(this@ThirdActivity, FourthActivity::class.java)
-                            intent.putExtra("obj", meno)
+                            var newintent = Intent(this@ThirdActivity, FourthActivity::class.java)
+                            newintent.putExtra("title", title)
+                            newintent.putExtra("contect", contect)
+                            setResult(RESULT_OK, newintent)
 
-                            startActivity(intent)
+                            startActivity(newintent)
 
                         }
 
@@ -91,8 +89,14 @@ class ThirdActivity : AppCompatActivity() {
     }
     fun initView(){
         activityThirdBinding.apply {
-
-
+            var str1 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                intent.getParcelableExtra("obj1", MemoClass::class.java)
+            }else{
+                intent.getParcelableExtra("obj1")
+            }
+            noTitleTextfield.setText("${str1?.title}")
+            noTimeTextField.setText("${str1?.currentTime}")
+            noContentTextField.setText("${str1?.contect}")
 
         }
 

@@ -2,9 +2,10 @@ package kr.co.lion.android01.miniproject1
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.activity.result.contract.ActivityResultContracts
 
 
-class MemoClass (var title:String?, var contect:String?, var currentTime:String?):Parcelable{
+class MemoClass(var title:String?, var contect: String?, var currentTime:String?):Parcelable{
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),

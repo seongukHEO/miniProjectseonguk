@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     var newList = mutableListOf<MemoClass>()
 
     //ThirdActivity에서 받아온 값을 담을 객체
-    var pleaseList = mutableListOf<MemoClass>()
+    var pleaseList = mutableListOf<MemoClass2>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,8 @@ class MainActivity : AppCompatActivity() {
         initData()
         setToolBar()
         initView()
-        setState()
+        change()
+
 
     }
 
@@ -63,11 +64,6 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        var contract2 = ActivityResultContracts.StartActivityForResult()
-        FourthActivitylauncher = registerForActivityResult(contract2){
-
-        }
-
         var contract4 = ActivityResultContracts.StartActivityForResult()
         ThirtActivitylauncher = registerForActivityResult(contract4){
             if (it.resultCode == RESULT_OK){
@@ -83,6 +79,11 @@ class MainActivity : AppCompatActivity() {
 
                 }
             }
+        }
+        var contract2 = ActivityResultContracts.StartActivityForResult()
+        FourthActivitylauncher = registerForActivityResult(contract2){
+
+
         }
 
 
@@ -122,7 +123,8 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-    fun setState(){
+    fun change(){
+
 
     }
 
@@ -151,6 +153,21 @@ class MainActivity : AppCompatActivity() {
                         launch(newIntent)
                     }
                 }
+                this.recyclerviewBinding.root.apply {
+                    var last1 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                        intent.getParcelableExtra("newplease", MemoClass2::class.java)
+                    }else{
+                        intent.getParcelableExtra<MemoClass2>("newplease")
+                    }
+                    pleaseList.add(last1!!)
+
+
+
+                    activityMainBinding.recyclerview.adapter?.notifyDataSetChanged()
+                }
+
+
+
             }
         }
 
