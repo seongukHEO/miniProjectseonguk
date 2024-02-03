@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import kr.co.lion.android01.miniproject1.databinding.ActivityFourthBinding
+import java.time.LocalDate
 
 class FourthActivity : AppCompatActivity() {
 
@@ -19,6 +21,7 @@ class FourthActivity : AppCompatActivity() {
     //ThirtActivity에서 온 객체를 받을 변수
     var seonguk = mutableListOf<MemoClass>()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,6 +40,7 @@ class FourthActivity : AppCompatActivity() {
         }
 
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     fun setToolBar(){
         activityFourthBinding.apply {
 
@@ -75,9 +79,10 @@ class FourthActivity : AppCompatActivity() {
                         R.id.changememo_menu -> {
                             var title = changeTitleTextField.text.toString()
                             var content = changeContentTextField.text.toString()
+                            var currentTime = LocalDate.now().toString()
 
 
-                            var meme = MemoClass2(title, content)
+                            var meme = MemoClass(title, content, currentTime)
 
                             var newIntent = Intent(this@FourthActivity, MainActivity::class.java)
                             newIntent.putExtra("newplease", meme)
