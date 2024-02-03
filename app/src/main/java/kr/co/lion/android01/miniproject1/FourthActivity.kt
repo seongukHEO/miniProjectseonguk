@@ -19,7 +19,7 @@ class FourthActivity : AppCompatActivity() {
     lateinit var activityMainlauncher:ActivityResultLauncher<Intent>
 
     //ThirtActivity에서 온 객체를 받을 변수
-    var seonguk = mutableListOf<MemoClass>()
+    var seonguk = mutableListOf<MemoClass2>()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,24 +44,6 @@ class FourthActivity : AppCompatActivity() {
     fun setToolBar(){
         activityFourthBinding.apply {
 
-               changeTitleTextField.apply {
-                    val gogo1 = intent.getStringExtra("title").toString()
-                    setText(gogo1)
-                    setOnClickListener {
-                        //TextField를 클릭할 경우 입력된 값이 사라진다
-                        setText("")
-                    }
-                }
-                changeContentTextField.apply {
-                    var gogo2 = intent.getStringExtra("contect").toString()
-                    setText(gogo2)
-                    setOnClickListener {
-                        setText("")
-                    }
-                   // Log.e("test1234", "${title}")
-                }
-
-
             fourthToolbar.apply {
                 //타이틀 설정
                 title = "메모 수정"
@@ -76,19 +58,17 @@ class FourthActivity : AppCompatActivity() {
                 inflateMenu(R.menu.fourth_menu)
                 setOnMenuItemClickListener {
                     when(it.itemId){
+                        //분기한다
                         R.id.changememo_menu -> {
-                            var title = changeTitleTextField.text.toString()
-                            var content = changeContentTextField.text.toString()
-                            var currentTime = LocalDate.now().toString()
+                            var newTitle = changeTitleTextField.text.toString()
+                            var newContent = changeContentTextField.text.toString()
 
-
-                            var meme = MemoClass(title, content, currentTime)
-
-                            var newIntent = Intent(this@FourthActivity, MainActivity::class.java)
+                            var meme = MemoClass2(newTitle, newContent)
+                            var newIntent = Intent()
                             newIntent.putExtra("newplease", meme)
 
                             setResult(RESULT_OK, newIntent)
-                            startActivity(newIntent)
+                            finish()
                         }
                     }
 
@@ -100,6 +80,23 @@ class FourthActivity : AppCompatActivity() {
     }
     fun initView(){
         activityFourthBinding.apply {
+            //기본적으로 설정되어 있는 Text
+            changeTitleTextField.apply {
+                var gogo = intent?.getStringExtra("newTitle")
+                setText(gogo)
+                //Text를 클릭할 경우 내부의 내용이 사라짐
+                setOnClickListener {
+                    setText("")
+                }
+            }
+            changeContentTextField.apply {
+                var gogo1 = intent?.getStringExtra("newContect")
+                setText(gogo1)
+                setOnClickListener {
+                    setText("")
+                }
+            }
+
 
 
         }

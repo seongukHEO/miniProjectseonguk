@@ -32,6 +32,15 @@ class ThirdActivity : AppCompatActivity() {
         activityFourthlauncher = registerForActivityResult(contract3){
             if (it.resultCode == RESULT_OK){
                 if (it.data != null){
+                    var str1 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                        it?.data!!.getParcelableExtra("newplease", MemoClass2::class.java)
+                    }else{
+                        it?.data!!.getParcelableExtra<MemoClass2>("newplease")
+                    }
+                    activityThirdBinding.apply {
+                        noTitleTextfield.setText("${str1?.newTitle}")
+                        noContentTextField.setText("${str1?.newContent}")
+                    }
 
                 }
             }
@@ -59,15 +68,16 @@ class ThirdActivity : AppCompatActivity() {
                     var title = noTitleTextfield.text.toString()
                     var contect = noContentTextField.text.toString()
 
+
                         when (it.itemId) {
                         R.id.modify_menu -> {
 
                             var newintent = Intent(this@ThirdActivity, FourthActivity::class.java)
-                            newintent.putExtra("title", title)
-                            newintent.putExtra("contect", contect)
+                            newintent.putExtra("newTitle", title)
+                            newintent.putExtra("newContect", contect)
                             setResult(RESULT_OK, newintent)
 
-                            startActivity(newintent)
+                            activityFourthlauncher.launch(newintent)
 
                         }
 

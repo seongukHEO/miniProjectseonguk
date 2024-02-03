@@ -28,8 +28,7 @@ class MainActivity : AppCompatActivity() {
     //정보를 담을 객체
     var newList = mutableListOf<MemoClass>()
 
-    //ThirdActivity에서 받아온 값을 담을 객체
-    var pleaseList = mutableListOf<MemoClass>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         initData()
         setToolBar()
         initView()
-        change()
+
 
 
     }
@@ -121,19 +120,6 @@ class MainActivity : AppCompatActivity() {
                 layoutManager = LinearLayoutManager(this@MainActivity)
             }
         }
-
-    }
-    fun change(){
-        activityMainBinding.apply {
-            var last1 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-                intent.getParcelableExtra("newplease", MemoClass::class.java)
-            }else{
-                intent.getParcelableExtra<MemoClass>("newplease")
-            }
-            newList.add(MemoClass(title = last1?.title, contect = last1?.contect, currentTime = last1?.currentTime))
-            activityMainBinding.recyclerview.adapter?.notifyDataSetChanged()
-        }
-
 
     }
 
