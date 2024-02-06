@@ -10,6 +10,7 @@ import androidx.core.view.isEmpty
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import kr.co.lion.android01.miniproject1.databinding.ActivitySecondBinding
+import kr.co.lion.androidproject1test.Util
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -32,13 +33,7 @@ class SecondActivity : AppCompatActivity() {
     }
 
     fun initData(){
-        activitySecondBinding.apply {
-            titleTextField.apply {
-                titleTextField.requestFocus()
 
-
-            }
-        }
 
     }
     @RequiresApi(Build.VERSION_CODES.O)
@@ -81,6 +76,7 @@ class SecondActivity : AppCompatActivity() {
                         true
 
                 }
+                Util.showSoftInput(activitySecondBinding.titleTextField, this@SecondActivity)
             }
         }
 
